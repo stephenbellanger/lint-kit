@@ -1,0 +1,4 @@
+include ':lint-kit'
+include ':lint-kit-checks'
+include ':sample'
+rootProject.name = "lintkit"

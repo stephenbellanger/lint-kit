@@ -1,0 +1,102 @@
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
+
+                // You can then customize attributes of the publication as shown below.
+                groupId = GROUP
+                artifactId = ARTEFACT_ID
+                version = VERSION_CODE
+
+                pom {
+                    name = POM_NAME
+                    description = POM_DESCRIPTION
+                    url = POM_URL
+
+                    scm {
+                        connection = POM_SCM_CONNECTION
+                        developerConnection = POM_SCM_DEV_CONNECTION
+                        url = POM_SCM_URL
+                    }
+
+                    licenses {
+                        license {
+                            name = POM_LICENCE_NAME
+                            url = POM_LICENCE_URL
+                            distribution = POM_LICENCE_DIST
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = POM_DEVELOPER_ID
+                            name = POM_DEVELOPER_NAME
+                            email = POM_DEVELOPER_EMAIL
+                        }
+                    }
+                }
+
+                repositories {
+                    maven {
+                        credentials {
+                            username = getRepositoryUsername()
+                            password = getRepositoryPassword()
+                        }
+                        url = version.endsWith('SNAPSHOT') ? getSnapshotRepositoryUrl() : getReleaseRepositoryUrl()
+                    }
+                }
+            }
+        }
+
+        signing {
+            sign publishing.publications.release
+        }
+
+        task androidSourcesJar(type: Jar) {
+            classifier = 'sources'
+            from android.sourceSets.main.java.sourceFiles
+        }
+
+        artifacts {
+            archives androidSourcesJar
+        }
+    }
+}
+
+def getReleaseRepositoryUrl() {
+    return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
+            : "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+}
+
+def getSnapshotRepositoryUrl() {
+    return hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
+            : "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+}
+
+def getRepositoryUsername() {
+    return hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : ""
+}
+
+def getRepositoryPassword() {
+    return hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
+}
+
+def getSigningKeyId() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty('signing.keyId', "").toString()
+}
+
+def getSigningKey() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty('signing.secretKeyRingFile', "").toString()
+}
+
+def getSigningPassword() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty('signing.password', "").toString()
+}

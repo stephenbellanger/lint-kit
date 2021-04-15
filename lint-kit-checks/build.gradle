@@ -1,0 +1,24 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+dependencies {
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
+    compileOnly "com.android.tools.lint:lint-api:$lintVersion"
+    compileOnly "com.android.tools.lint:lint-checks:$lintVersion"
+
+    testCompileOnly "com.android.tools.lint:lint:$lintVersion"
+    testCompileOnly "com.android.tools.lint:lint-tests:$lintVersion"
+    testCompileOnly "junit:junit:4.13.2"
+}
+
+jar {
+    manifest {
+        attributes('Lint-Registry-v2': 'com.sbellanger.kit.lint.IssueRegistry')
+    }
+}
