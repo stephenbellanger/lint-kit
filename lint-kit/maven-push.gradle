@@ -1,4 +1,4 @@
-afterEvaluate {
+/*afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
@@ -81,4 +81,4 @@ def getRepositoryUsername() {
 
 def getRepositoryPassword() {
     return hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
-}
+}*/

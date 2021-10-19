@@ -9,13 +9,13 @@ repositories {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.sbellanger.lintkit"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
     }
@@ -38,16 +38,16 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
 
     // Remote maven repository
-    implementation 'io.github.stephenbellanger.kit.lint:lint-kit:1.0'
+    //implementation 'io.github.stephenbellanger.kit.lint:lint-kit:1.0'
 
     // Local module
-    //implementation project(':lint-kit')
+    implementation project(':lint-kit')
 }
 
 apply from: './lint.gradle'

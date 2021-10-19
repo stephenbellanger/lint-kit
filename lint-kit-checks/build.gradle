@@ -3,11 +3,13 @@ plugins {
     id 'kotlin'
 }
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
 
 dependencies {
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
 
     compileOnly "com.android.tools.lint:lint-api:$lintVersion"
     compileOnly "com.android.tools.lint:lint-checks:$lintVersion"
@@ -15,10 +17,17 @@ dependencies {
     testCompileOnly "com.android.tools.lint:lint:$lintVersion"
     testCompileOnly "com.android.tools.lint:lint-tests:$lintVersion"
     testCompileOnly "junit:junit:4.13.2"
+
+    testImplementation "com.android.tools:testutils:$lintVersion"
+    testImplementation "com.android.tools.lint:lint-tests:$lintVersion"
 }
 
-jar {
+/*jar {
     manifest {
         attributes('Lint-Registry-v2': 'com.sbellanger.kit.lint.IssueRegistry')
     }
-}
+}*/
+
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"

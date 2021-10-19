@@ -12,6 +12,7 @@
         android:theme="@style/Theme.Lintkit">
         <activity
             android:name=".MainActivity"
+            android:exported="false"
             android:label="YourAppName"
             android:theme="@style/Theme.Lintkit">
             <intent-filter>
