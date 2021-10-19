@@ -45,10 +45,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
 
     // Remote maven repository
-    //implementation 'com.github.stephenbellanger:lint-kit:master-SNAPSHOT'
+    implementation 'com.github.stephenbellanger:lint-kit:master-SNAPSHOT'
 
     // Local module
-    implementation project(':lint-kit')
+    //implementation project(':lint-kit')
 }
 
 //apply from: './lint.gradle'
