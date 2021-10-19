@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'maven-publish'
 }
 
 repositories {
@@ -12,7 +11,7 @@ repositories {
 
 android {
     compileSdkVersion 31
-    buildToolsVersion "30.0.3"
+    buildToolsVersion "31.0.0"
 
     defaultConfig {
         applicationId "com.sbellanger.lintkit"
@@ -29,11 +28,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }
 
@@ -46,10 +45,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
 
     // Remote maven repository
-    implementation 'com.github.stephenbellanger:lint-kit:master-SNAPSHOT'
+    //implementation 'com.github.stephenbellanger:lint-kit:master-SNAPSHOT'
 
     // Local module
-    //implementation project(':lint-kit')
+    implementation project(':lint-kit')
 }
 
-apply from: './lint.gradle'
+//apply from: './lint.gradle'
