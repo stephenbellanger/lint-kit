@@ -1,11 +1,13 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'maven-publish'
 }
 
 repositories {
     mavenCentral()
     google()
+    maven { url "https://jitpack.io" }
 }
 
 android {
@@ -44,10 +46,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
 
     // Remote maven repository
-    //implementation 'io.github.stephenbellanger.kit.lint:lint-kit:1.0'
+    implementation 'com.github.stephenbellanger:lint-kit:master-SNAPSHOT'
 
     // Local module
-    implementation project(':lint-kit')
+    //implementation project(':lint-kit')
 }
 
 apply from: './lint.gradle'
