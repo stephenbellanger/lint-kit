@@ -28,8 +28,8 @@ dependencies {
     testImplementation "com.android.tools.lint:lint-checks:$lintVersion"
 
     // External lint libraries
-    compileOnly 'com.vanniktech:lint-rules-android-lint:0.17.0'
-    compileOnly 'com.vanniktech:lint-rules-rxjava2-lint:0.17.0'
+    //compileOnly 'com.vanniktech:lint-rules-android-lint:0.17.0'
+    //compileOnly 'com.vanniktech:lint-rules-rxjava2-lint:0.17.0'
 }
 
 jar {
