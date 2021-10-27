@@ -18,7 +18,7 @@ class WellSeparatorDetectorTest {
                 |class Toto {
                 |
                 |///////////////////////////////////////////////////////////////////////////
-                |// PUBLIC METHOD
+                |// PUBLIC API
                 |///////////////////////////////////////////////////////////////////////////
                 |
                 |fun tutu() {}
@@ -43,13 +43,13 @@ class WellSeparatorDetectorTest {
                 |class Toto {
                 |
                 |///////////////////////////////////////////////////////////////////////////
-                |// PUBLIC METHOD
+                |// PUBLIC API
                 |///////////////////////////////////////////////////////////////////////////
                 |
                 |fun tutu() {}
                 |
                 |///////////////////////////////////////////////////////////////////////////
-                |// PRIVATE METHOD
+                |// HELPER
                 |///////////////////////////////////////////////////////////////////////////
                 |
                 |private fun tata() {}
@@ -99,7 +99,7 @@ class WellSeparatorDetectorTest {
                 |class Toto {
                 |
                 |///////////////////////////////////////////////////////////////////////////
-                |// PUBLIC METHODS
+                |// PUBLIC APIS
                 |///////////////////////////////////////////////////////////////////////////
                 |
                 |fun tutu() {}
@@ -110,5 +110,58 @@ class WellSeparatorDetectorTest {
             .issues(WellSeparatorDetector.ISSUE_SBC_NAMING)
             .run()
             .expectErrorCount(1)
+    }
+
+    @Test
+    fun testComment() {
+        TestLintTask.lint()
+            .allowMissingSdk()
+            .files(
+                LintDetectorTest.kotlin(
+                    """
+                |package foo
+                |
+                |class Toto {
+                |
+                |// TODO: foo
+                |
+                |fun tutu() {}
+                |
+                |}""".trimMargin()
+                )
+            )
+            .issues(WellSeparatorDetector.ISSUE_SBC_NAMING)
+            .run()
+            .expectClean()
+    }
+
+    @Test
+    fun testCommentWithSbc() {
+        TestLintTask.lint()
+            .allowMissingSdk()
+            .files(
+                LintDetectorTest.kotlin(
+                    """
+                |package foo
+                |
+                |class Toto {
+                |
+                |///////////////////////////////////////////////////////////////////////////
+                |// PUBLIC API
+                |///////////////////////////////////////////////////////////////////////////`
+                |
+                |// TODO: foo
+                |fun tutu() {}
+                |
+                |///////////////////////////////////////////////////////////////////////////
+                |// HELPER
+                |///////////////////////////////////////////////////////////////////////////`
+                |
+                |}""".trimMargin()
+                )
+            )
+            .issues(WellSeparatorDetector.ISSUE_SBC_NAMING)
+            .run()
+            .expectClean()
     }
 }

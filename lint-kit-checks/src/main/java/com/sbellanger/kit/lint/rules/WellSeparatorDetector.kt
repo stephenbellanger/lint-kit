@@ -10,13 +10,14 @@ import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
+import com.sbellanger.kit.lint.helper.isUpperCase
 import org.jetbrains.uast.UFile
 import java.util.EnumSet
 
 class WellSeparatorDetector : Detector(), Detector.UastScanner {
 
     ///////////////////////////////////////////////////////////////////////////
-    // COMPANION
+    // CONST
     ///////////////////////////////////////////////////////////////////////////
 
     companion object {
@@ -24,21 +25,27 @@ class WellSeparatorDetector : Detector(), Detector.UastScanner {
             "///////////////////////////////////////////////////////////////////////////"
 
         private val SBC_AUTHORIZED = listOf(
-            "// TEST",
-            "// ATTRIBUTE",
-            "// DEPENDENCY",
-            "// PUBLIC METHOD",
-            "// PRIVATE METHOD",
-            "// STATIC METHOD",
-            "// OVERRIDE METHOD",
-            "// COMPANION",
-            "// TAG",
-            "// LIFECYCLE METHOD",
-            "// HELPER",
-            "// DATA",
-            "// LIVEDATA",
-            "// INIT",
             "// CONST",
+            "// CONFIGURATION",
+            "// DATA",
+            "// DEPENDENCY",
+            "// ERROR CASE",
+            "// EXCEPTION",
+            "// FACTORY",
+            "// FUNCTIONAL CASE",
+            "// HELPER",
+            "// INTERFACE",
+            "// LIFECYCLE",
+            "// MOCKED DEPENDENCY",
+            "// PUBLIC API",
+            "// SPECIALIZATION",
+            "// SPIED DEPENDENCY",
+            "// STATE",
+            "// TECHNICAL CASE",
+            "// UI SETUP",
+            "// UNIT UNDER TEST",
+            "// TAG",
+            "// VIEW",
         )
 
         val ISSUE_SBC_NAMING = Issue.create(
@@ -56,7 +63,7 @@ class WellSeparatorDetector : Detector(), Detector.UastScanner {
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    // OVERRIDE METHODS
+    // SPECIALIZATION
     ///////////////////////////////////////////////////////////////////////////
 
     override fun getApplicableUastTypes() = listOf(UFile::class.java)
@@ -67,19 +74,27 @@ class WellSeparatorDetector : Detector(), Detector.UastScanner {
     // HELPER
     ///////////////////////////////////////////////////////////////////////////
 
-    @SuppressWarnings("TooGenericExceptionCaught")
+    @SuppressWarnings("TooGenericExceptionCaught", "SwallowedException")
     class RuleHandler(private val context: JavaContext) : UElementHandler() {
         override fun visitFile(node: UFile) {
             node.allCommentsInFile.forEachIndexed { index, comment ->
                 try {
-                    if (comment.text == SBC_LINE && node.allCommentsInFile[index + 2].text == SBC_LINE) {
-                        val nextLine = node.allCommentsInFile[index + 1]
-                        if (!SBC_AUTHORIZED.contains(nextLine.text)) {
+                    val currentLine = comment.text
+                    val endLine = node.allCommentsInFile[index + 2].text
+                    if (currentLine == SBC_LINE && endLine == SBC_LINE) {
+                        val nextLine = node.allCommentsInFile[index + 1].text
+                        if (nextLine.isUpperCase() && !SBC_AUTHORIZED.contains(nextLine)) {
                             context.report(
                                 ISSUE_SBC_NAMING,
                                 node,
                                 context.getNameLocation(node),
-                                "SBC name not respected"
+                                StringBuilder()
+                                    .append("SBC name not respected")
+                                    .appendLine()
+                                    .appendLine(currentLine)
+                                    .appendLine(nextLine)
+                                    .appendLine(endLine)
+                                    .toString()
                             )
                         }
                     }
