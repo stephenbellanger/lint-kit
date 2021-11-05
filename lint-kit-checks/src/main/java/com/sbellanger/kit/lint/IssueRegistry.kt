@@ -5,6 +5,7 @@ package com.sbellanger.kit.lint
 import com.android.tools.lint.client.api.IssueRegistry
 import com.android.tools.lint.detector.api.CURRENT_API
 import com.android.tools.lint.detector.api.Issue
+import com.sbellanger.kit.lint.rules.NotEnoughtFeatureContractInterfaceSegregationDetector
 import com.sbellanger.kit.lint.rules.WellSeparatorDetector
 
 class IssueRegistry : IssueRegistry() {
@@ -21,6 +22,7 @@ class IssueRegistry : IssueRegistry() {
 
     override val issues: List<Issue>
         get() = listOf(
-            WellSeparatorDetector.ISSUE_SBC_NAMING
+            WellSeparatorDetector.ISSUE_SBC_NAMING,
+            NotEnoughtFeatureContractInterfaceSegregationDetector.ISSUE
         )
 }
